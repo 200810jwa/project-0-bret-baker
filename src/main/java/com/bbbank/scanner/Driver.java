@@ -92,6 +92,8 @@ public class Driver {
 										break;
 //							withdraw options	
 									case 2 : 
+										System.out.println("Enter 1 to Withdraw from Checking / Enter 2 to Withdraw from Savings / Enter 3 to Logout");
+										selectionInt = sc.nextInt();
 //										nested switch level 4
 										switch(selectionInt) {
 //									withdraw checking

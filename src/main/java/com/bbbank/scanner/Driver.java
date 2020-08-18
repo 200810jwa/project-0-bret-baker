@@ -30,7 +30,7 @@ public class Driver {
 //				forced role of user for development
 				role = 1;
 				
-//				nested switch level 1 start (role)
+//			nested switch level 1 start (role)
 				switch(role) {
 //				user homepage
 					case 1 :

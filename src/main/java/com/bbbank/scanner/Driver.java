@@ -15,7 +15,7 @@ public class Driver {
 		System.out.println("Enter 1 for Login / Enter 2 for Sign Up");
 		selectionInt = sc.nextInt();
 		
-//		switch level 0 start (login/sign up)
+//		switch level 0 start (login)
 		switch(selectionInt) {
 //		login
 			case 1 :
@@ -28,7 +28,7 @@ public class Driver {
 				
 //				if correct credentials entered, get role for db and serve appropriate homepage
 //				forced role of user for development
-				role = 1;
+				role = 2;
 				
 //			nested switch level 1 start (role)
 				switch(role) {
@@ -203,14 +203,239 @@ public class Driver {
 						break;
 //					nested switch level 2 end (user homepage)
 //				nested switch level 1 continue (role)
+//					admin homepage
 					case 2 :
+						System.out.println("Enter 1 for Applications / Enter 2 for User Info / Enter 3 for Account Transactions / Enter 4 to Logout");
+						selectionInt = sc.nextInt();
+//						nested switch level 2 start (admin homepage)
+						switch(selectionInt) {
+//						applications
+						case 1 :
+//							check db for open apps, if true, list for admin, if false provide msg stating no open apps
+							System.out.println("------------------");
+							System.out.println("Enter username from list above to view application");
+							String userapp = sc.next();
+							System.out.println(userapp);
+//							get application data from db and display for admin
+							System.out.println("User firstname");
+							System.out.println("User lastname");
+							System.out.println("User email");
+							System.out.println("User credit score");
+							System.out.println("User annual income");
+							System.out.println("------------------");
+							System.out.println("Enter 1 to Approve / Enter 2 to Reject / Enter 3 to Logout");
+							selectionInt = sc.nextInt();
+//							nested switch level 3 start (open applications)
+							switch(selectionInt) {
+							case 1 :
+//								send data to user table, starting balances $0
+								System.out.println("Approved. User added to system.");
+								break;
+							case 2 :
+//								delete from applications table
+								System.out.println("Success. Application denied. Data deleted.");
+								break;
+							case 3 :
+								sc.close();
+								System.out.println("------------------");
+								System.out.println("Thank you for banking with BB Bank");
+								break;
+							default : 
+								System.out.println("Error");
+								break;
+							}
+//							nested switch level 3 end (open applications)
+							break;
+//						user accounts
+						case 2 :
+							System.out.println("Enter username for account information");
+							String username1 = sc.next();
+							System.out.println(username1);
+							System.out.println("User account info...");
+							break;
+//						account transactions
+						case 3 :
+							System.out.println("Enter 1 for Deposit / Enter 2 for Withdrawal / Enter 3 for Transfer / Enter 4 for Cancellation / Enter 5 to Logout");
+							selectionInt = sc.nextInt();
+//							nested switch level 3 start (account transactions)
+							switch(selectionInt) {
+//							admin deposit
+							case 1 :
+								System.out.println("Enter username for account to Deposit");
+								String username2 = sc.next();
+								System.out.println(username2);
+								System.out.println("Checking Balance: $100.00 / Savings Balance: $200.00");
+								System.out.println("Enter 1 to Deposit in Checking / Enter 2 to Deposit in Savings");
+								selectionInt = sc.nextInt();
+//								nested switch level 4 start (admin deposit)
+								switch(selectionInt) {
+								case 1 :
+									System.out.println("Enter amount to Deposit in Checking");
+									double deposit1 = sc.nextDouble();
+									System.out.println("Success: $" + deposit1 + " deposited in Checking");
+									break;
+								case 2 :
+									System.out.println("Enter amount to Deposit in Savings");
+									double deposit2 = sc.nextDouble();
+									System.out.println("Success: $" + deposit2 + " deposited in Savings");
+									break;
+								default :
+									System.out.println("error");
+									break;
+								}
+//								nested switch level 4 end (admin deposit)
+								break;
+//							admin withdrawal
+							case 2 :
+								System.out.println("Enter username for account to Withdraw");
+								String username3 = sc.next();
+								System.out.println(username3);
+								System.out.println("Checking Balance: $100.00 / Savings Balance: $200.00");
+								System.out.println("Enter 1 to Withdraw from Checking / Enter 2 to Withdraw from Savings");
+								selectionInt = sc.nextInt();
+//								nested switch level 4 start (admin withdrawal)
+								switch(selectionInt) {
+								case 1 :
+									System.out.println("Enter amount to Withdraw from Checking");
+									double withdraw1 = sc.nextDouble();
+									System.out.println("Success: $" + withdraw1 + " withdrawn from Checking");
+									break;
+								case 2 :
+									System.out.println("Enter amount to Withdraw from Savings");
+									double withdraw2 = sc.nextDouble();
+									System.out.println("Success: $" + withdraw2 + " withdrawn from Savings");
+									break;
+								default :
+									System.out.println("error");
+									break;
+								}
+//								nested switch level 4 end (admin withdrawal)
+								break;
+//							admin transfer
+							case 3 :
+								System.out.println("Enter username of account to Transfer from");
+								String username4 = sc.next();
+//								check db for user and get balances
+								System.out.println("Account Balances for: " + username4);
+								System.out.println("Checking Balance: $100.00 / Savings Balance: $200.00");
+								System.out.println("Enter 1 to Transfer from Checking / Enter 2 to Transfer from Savings");
+								selectionInt = sc.nextInt();
+//								nested switch level 4 start (admin transfer)
+								switch(selectionInt) {
+//									transfer from checking
+									case 1: 
+										System.out.println("Enter username of account to Transfer to");
+										String username5 = sc.next();
+//										check db for user and get balances
+										System.out.println("Account Balances for: " + username5);
+										System.out.println("Checking Balance: $100.00 / Savings Balance: $200.00");
+										System.out.println("Enter 1 to Transfer to Checking / Enter 2 to Transfer to Savings");
+										selectionInt = sc.nextInt();
+//										nested switch level 5 start (admin transfer from checking)
+										switch(selectionInt) {
+//											transfer to checking
+											case 1 :
+												System.out.println("Enter amount to transfer");
+												double transfer = sc.nextDouble();
+												System.out.println("Success. Amount transferred: $" + transfer);
+												System.out.println("New balances for user1");
+												System.out.println("Checking Balance: $100.00 / Savings Balance: $200.00");
+												System.out.println("New balances for user2");
+												System.out.println("Checking Balance: $100.00 / Savings Balance: $200.00");
+												break;
+//											transfer to savings
+											case 2 :
+												System.out.println("Enter amount to transfer");
+												double transfer1 = sc.nextDouble();
+												System.out.println("Success. Amount transferred: $" + transfer1);
+												System.out.println("New balances for user1");
+												System.out.println("Checking Balance: $100.00 / Savings Balance: $200.00");
+												System.out.println("New balances for user2");
+												System.out.println("Checking Balance: $100.00 / Savings Balance: $200.00");
+												break;
+											default :
+												System.out.println("error");
+												break;
+										}
+//										nested switch level 5 end (admin transfer from checking)
+										break;
+//									transfer from savings
+									case 2 :
+										System.out.println("Enter username of account to Transfer to");
+										String username6 = sc.next();
+//										check db for user and get balances
+										System.out.println("Account Balances for: " + username6);
+										System.out.println("Checking Balance: $100.00 / Savings Balance: $200.00");
+										System.out.println("Enter 1 to Transfer to Checking / Enter 2 to Transfer to Savings");
+										selectionInt = sc.nextInt();
+//										nested switch level 5 start (admin transfer from savings)
+										switch(selectionInt) {
+//											transfer to checking
+											case 1 :
+												System.out.println("Enter amount to transfer");
+												double transfer = sc.nextDouble();
+												System.out.println("Success. Amount transferred: $" + transfer);
+												System.out.println("New balances for user1");
+												System.out.println("Checking Balance: $100.00 / Savings Balance: $200.00");
+												System.out.println("New balances for user2");
+												System.out.println("Checking Balance: $100.00 / Savings Balance: $200.00");
+												break;
+//											transfer to savings
+											case 2 :
+												System.out.println("Enter amount to transfer");
+												double transfer1 = sc.nextDouble();
+												System.out.println("Success. Amount transferred: $" + transfer1);
+												System.out.println("New balances for user1");
+												System.out.println("Checking Balance: $100.00 / Savings Balance: $200.00");
+												System.out.println("New balances for user2");
+												System.out.println("Checking Balance: $100.00 / Savings Balance: $200.00");
+												break;
+											default :
+												System.out.println("error");
+												break;
+										}
+//										nested switch level 5 end (admin transfer from savings)
+										break;
+									default :
+										System.out.println("error");
+										break;
+								}
+//								nested switch level 4 end (admin transfer)
+								break;
+//							cancel account
+							case 4 :
+								break;
+//							logout
+							case 5 : 
+								sc.close();
+								System.out.println("------------------");
+								System.out.println("Thank you for banking with BB Bank");
+								break;
+							default :
+								System.out.println("Error");
+								break;
+							}
+//							nested switch level 3 end (account transactions)
+							break;
+//						logout
+						case 4 :
+							sc.close();
+							System.out.println("------------------");
+							System.out.println("Thank you for banking with BB Bank");
+							break;
+						default : 
+							System.out.println("Error");
+							break;
+						}
+//						nested switch level 2 end (admin homepage)
 						break;
 					default :
 						System.out.println("Error");
+						break;
 				}
-				
 				break;
-				
+//			nested switch level 1 end (role)
+//		switch level 0 continue (sign up)				
 //		sign up
 			case 2 :
 				System.out.println("Enter First name");

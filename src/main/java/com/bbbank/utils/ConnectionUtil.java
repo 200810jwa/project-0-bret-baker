@@ -5,10 +5,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionUtil {
-	
-	public static void main(String[] args) {
-		ConnectionUtil.getConnection();
-	}
 
 	private static Connection conn = null;
 	
@@ -33,10 +29,6 @@ public class ConnectionUtil {
 		
 		try {
 			conn = DriverManager.getConnection(url, username, password);
-			System.out.println("DB connected...");
-//			System.out.println(url);
-//			System.out.println(username);
-//			System.out.println(password);
 		} catch(SQLException e) {
 			e.printStackTrace();
 			System.out.println("WE FAILED TO GET A CONNECTION!");

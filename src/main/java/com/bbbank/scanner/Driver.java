@@ -9,6 +9,9 @@ public class Driver {
 //		ControlFlow cf = new ControlFlow();
 //		cf.start();
 //		ApplicationDAO app = new ApplicationDAO();
+//		app.insert("john", "holcomb", "j@email.com", "1234", 1, 700, 40000);
+//		app.findAll();
+//		app.delete("j@email.com");
 		
 	}
 	

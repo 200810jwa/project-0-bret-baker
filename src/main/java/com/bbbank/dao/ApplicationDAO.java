@@ -20,7 +20,7 @@ public class ApplicationDAO implements IApplicationDAO {
 	PreparedStatement stmt = null;
 
 	@Override
-	public List<Application> findAll() {
+	public List<Application> getAll() {
 
 		List<Application> allApps = new ArrayList<>();
 
@@ -61,7 +61,7 @@ public class ApplicationDAO implements IApplicationDAO {
 	}
 
 	@Override
-	public Application findByUsername(String email) {
+	public Application getByUsername(String email) {
 
 		List<Application> app = new ArrayList<>();
 

@@ -1,120 +1,143 @@
 package com.bbbank.scanner;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
+import com.bbbank.dao.UserDAO;
+import com.bbbank.models.Application;
+import com.bbbank.models.User;
 
 public class ControlFlowUser {
 	
 	public static Scanner sc = new Scanner(System.in);
 	
-	public static void userViewBalances() {
-		
-	}
+	public static double checking = 0;
+	public static double savings = 0;
+	
+	public static List<User> user = new ArrayList<>();
+	public static UserDAO user1 = new UserDAO();
 
-	public static void userHomePage() {
-		System.out.println("------------------");
-		System.out.println("-- User Homepage -");
-		System.out.println("------------------");
-		System.out.println("Enter 1 to View Balances / Enter 2 to View Account Information / Enter 3 to Logout");
+	public static void userHomePage(int userInt) {
+//		user1.getById(userInt);
+		System.out.println("1 View Balances");
+		System.out.println("2 View Account Information");
+		System.out.println("3 Logout");
 		int selectionInt = sc.nextInt();
 //	nested switch level 2 start (user homepage)
 		switch (selectionInt) {
 //	view balances
 		case 1:
-			double checking = 150.62;
-			double savings = 302.76;
-			System.out.println("Checking Balance: $" + checking + " / Savings Balance: $" + savings);
+//			double checking = 150.62;
+//			double savings = 302.76;
+			user = user1.getById(userInt);
+			checking = user.get(0).getChecking_balance();
+			savings = user.get(0).getSavings_balance();
+			System.out.println("");
+			System.out.println("Checking Balance: $" + checking);
+			System.out.println("Savings Balance: $" + savings);
+			System.out.println("");
 			System.out.println("------------------");
-			System.out.println("Enter 1 to Make a Deposit / Enter 2 to Withdraw Funds / Enter 3 to Logout");
+			System.out.println("");
+			System.out.println("1 Deposit");
+			System.out.println("2 Withdraw");
+			System.out.println("3 Logout");
 			selectionInt = sc.nextInt();
 //			nested switch level 3 start (view balances)
 			switch (selectionInt) {
 //			deposit options
 			case 1:
-				System.out
-						.println("Enter 1 to Deposit in Checking / Enter 2 to Deposit in Savings / Enter 3 to Logout");
+				System.out.println("1 Deposit Checking");
+				System.out.println("2 Deposit Savings");
+				System.out.println("3 Logout");
 				selectionInt = sc.nextInt();
 //					nested switch level 4 start (deposit options)
 				switch (selectionInt) {
 //					deposit checking
-				case 1:
-					System.out.println("Enter amount you wish to Deposit");
-					System.out.println("(Amount will round to 2 decimal places / Max Deposit = $1,000.00)");
-					double deposit = sc.nextDouble();
-					System.out.println("Success: $" + deposit + " was added to your Checking account.");
-					double newBalance = checking + deposit;
-					System.out.println("------------------");
-					System.out.println("You have a new Checking balance of $" + newBalance);
-					sc.close();
-					System.out.println("------------------");
-					System.out.println("Thank you for banking with BB Bank");
-					break;
+					case 1:
+						System.out.println("");
+						System.out.println("Enter amount to Deposit in Checking");
+						double deposit = sc.nextDouble();
+//						System.out.println(deposit);
+						String username = user.get(0).getUsername();
+						user1.updateCheckingBalance(username, deposit);
+						System.out.println("");
+						System.out.println("Success: $" + deposit + " deposited in Checking");
+						System.out.println("");
+						System.out.println("Returning to home page...");
+						userHomePage(userInt);
+						break;
 //					deposit savings			
-				case 2:
-					System.out.println("Enter amount you wish to Deposit");
-					System.out.println("(Amount will round to 2 decimal places / Max Deposit = $1,000.00)");
-					double deposit2 = sc.nextDouble();
-					System.out.println("Success: $" + deposit2 + " was added to your Savings account.");
-					double newBalance2 = savings + deposit2;
-					System.out.println("------------------");
-					System.out.println("You have a new Savings balance of $" + newBalance2);
-					sc.close();
-					System.out.println("------------------");
-					System.out.println("Thank you for banking with BB Bank");
-					break;
-				case 3:
-//					logout			
-					sc.close();
-					System.out.println("------------------");
-					System.out.println("Thank you for banking with BB Bank");
-					break;
-				default:
-					System.out.println("Error");
-					break;
-				}
+					case 2:
+						System.out.println("");
+						System.out.println("Enter amount to Deposit in Savings");
+						double deposit1 = sc.nextDouble();
+//						System.out.println(deposit1);
+						String username1 = user.get(0).getUsername();
+						user1.updateCheckingBalance(username1, deposit1);
+						System.out.println("");
+						System.out.println("Success: $" + deposit1 + " deposited in Savings");
+						System.out.println("");
+						System.out.println("Returning to home page...");
+						userHomePage(userInt);
+						break;
+//					logout	
+					case 3:		
+						sc.close();
+						System.out.println("------------------");
+						System.out.println("Thank you for banking with BB Bank");
+						break;
+					default:
+						System.out.println("Error");
+						break;
+					}
 //					nested switch level 4 end (deposit options)
 				break;
 //			withdraw options	
 			case 2:
-				System.out.println(
-						"Enter 1 to Withdraw from Checking / Enter 2 to Withdraw from Savings / Enter 3 to Logout");
+				System.out.println("1 Withdraw Checking");
+				System.out.println("2 Withdraw Savings");
+				System.out.println("3 Logout");
 				selectionInt = sc.nextInt();
 //					nested switch level 4 start (withdraw options)
 				switch (selectionInt) {
 //					withdraw checking
-				case 1:
-					System.out.println("Enter amount you wish to Withdraw");
-					System.out.println("(Amount will round to 2 decimal places / Max Amount = Account Balance)");
-					double withdraw = sc.nextDouble();
-					System.out.println("Success: $" + withdraw + " was withdrawn from your Checking account.");
-					double newBalance = checking - withdraw;
-					System.out.println("------------------");
-					System.out.println("You have a new Checking balance of $" + newBalance);
-					sc.close();
-					System.out.println("------------------");
-					System.out.println("Thank you for banking with BB Bank");
-					break;
-//					withdraw savings			
-				case 2:
-					System.out.println("Enter amount you wish to Withdraw");
-					System.out.println("(Amount will round to 2 decimal places / Max Amount = Account Balance)");
-					double withdraw2 = sc.nextDouble();
-					System.out.println("Success: $" + withdraw2 + " was withdrawn from your Savings account.");
-					double newBalance2 = savings - withdraw2;
-					System.out.println("------------------");
-					System.out.println("You have a new Savings balance of $" + newBalance2);
-					sc.close();
-					System.out.println("------------------");
-					System.out.println("Thank you for banking with BB Bank");
-					break;
-//					logout
-				case 3:
-					sc.close();
-					System.out.println("------------------");
-					System.out.println("Thank you for banking with BB Bank");
-					break;
-				default:
-					System.out.println("Error");
-					break;
+					case 1:
+						System.out.println("");
+						System.out.println("Enter amount to Withdraw from Checking");
+						double withdraw = sc.nextDouble();
+						withdraw = -withdraw;
+						String username = user.get(0).getUsername();
+						user1.updateCheckingBalance(username, withdraw);
+						System.out.println("");
+						System.out.println("Success: $" + withdraw + " withdrawn from Checking");
+						System.out.println("");
+						System.out.println("Returning to home page...");
+						userHomePage(userInt);
+						break;
+	//					withdraw savings			
+					case 2:
+						System.out.println("");
+						System.out.println("Enter amount to Withdraw from Savings");
+						double withdraw1 = sc.nextDouble();
+						withdraw1 = -withdraw1;
+						String username1 = user.get(0).getUsername();
+						user1.updateCheckingBalance(username1, withdraw1);
+						System.out.println("");
+						System.out.println("Success: $" + withdraw1 + " withdrawn from Savings");
+						System.out.println("");
+						System.out.println("Returning to home page...");
+						userHomePage(userInt);
+						break;
+	//					logout
+					case 3:
+						sc.close();
+						System.out.println("------------------");
+						System.out.println("Thank you for banking with BB Bank");
+						break;
+					default:
+						System.out.println("Error");
+						break;
 				}
 //					nested switch level 4 end (withdraw options)								
 				break;
@@ -133,43 +156,43 @@ public class ControlFlowUser {
 //		view acct info
 		case 2:
 //		nested switch level 3 start (view acct info)
-			String firstname = "tom";
-			String lastname = "jones";
-			String email = "tj@email.com";
-			System.out.println("First name: " + firstname);
-			System.out.println("Last name: " + lastname);
-			System.out.println("Email: " + email);
+			user1.getById(userInt);
+			System.out.println("");
 			System.out.println("------------------");
-			System.out.println("Enter 1 to Edit Account Info / Enter 2 to Logout");
+			System.out.println("");
+			System.out.println("1 Edit Account Info");
+			System.out.println("2 Logout");
 			selectionInt = sc.nextInt();
 //				nested switch level 4 start (edit acct info)
 			switch (selectionInt) {
 //				edit acct info
-			case 1:
-				System.out.println("Enter first name:");
-				String firstname1 = sc.next();
-				System.out.println("Enter last name:");
-				String lastname1 = sc.next();
-				System.out.println("Enter email:");
-				String email1 = sc.next();
-				System.out.println("Success: New Account Info:");
-				System.out.println("First name: " + firstname1);
-				System.out.println("Last name: " + lastname1);
-				System.out.println("Email: " + email1);
-				sc.close();
-				System.out.println("------------------");
-				System.out.println("Thank you for banking with BB Bank");
-				break;
-//				logout
-			case 2:
-				sc.close();
-				System.out.println("------------------");
-				System.out.println("Thank you for banking with BB Bank");
-				break;
-			default:
-				System.out.println("Error");
-				break;
-//				nested switch level 4 end (edit acct info)
+				case 1:
+					System.out.println("Enter first name:");
+					String firstname = sc.next();
+					System.out.println("Enter last name:");
+					String lastname = sc.next();
+					System.out.println("Enter email:");
+					String email = sc.next();
+					System.out.println("Enter password:");
+					String password = sc.next();
+					String username = email;
+					user1.updateAccountInfo(userInt, username, firstname, lastname, email, password);
+					System.out.println("");
+					System.out.println("Account information updated.");
+					System.out.println("");
+					System.out.println("Returning to home page...");
+					userHomePage(userInt);
+					break;
+	//				logout
+				case 2:
+					sc.close();
+					System.out.println("------------------");
+					System.out.println("Thank you for banking with BB Bank");
+					break;
+				default:
+					System.out.println("Error");
+					break;
+	//				nested switch level 4 end (edit acct info)
 			}
 			break;
 //		logout

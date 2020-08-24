@@ -14,6 +14,8 @@ import java.util.List;
 import com.bbbank.models.Application;
 import com.bbbank.utils.ConnectionUtil;
 
+import com.bbbank.models.Application;
+
 public class ApplicationDAO implements IApplicationDAO {
 	
 	Connection conn = null;
@@ -55,13 +57,14 @@ public class ApplicationDAO implements IApplicationDAO {
 		}
 
 		for (int i = 0; i < allApps.size(); i++) {
+			System.out.println("");
 			System.out.println(allApps.get(i));
 		}
 		return allApps;
 	}
 
 	@Override
-	public Application getByUsername(String email) {
+	public List<Application> getByUsername(String email) {
 
 		List<Application> app = new ArrayList<>();
 
@@ -96,7 +99,7 @@ public class ApplicationDAO implements IApplicationDAO {
 		}
 
 		System.out.println(app.get(0));
-		return null;
+		return app;
 	}
 
 	@Override

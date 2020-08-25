@@ -8,7 +8,11 @@ import com.bbbank.dao.UserDAO;
 import com.bbbank.models.Application;
 import com.bbbank.models.User;
 
+import com.bbbank.logger.L4J;
+
 public class ControlFlowUser {
+	
+	public static L4J log = new L4J();
 	
 	public static Scanner sc = new Scanner(System.in);
 	
@@ -18,7 +22,7 @@ public class ControlFlowUser {
 	public static List<User> user = new ArrayList<>();
 	public static UserDAO user1 = new UserDAO();
 
-	public static void userHomePage(int userInt) {
+	public void userHomePage(int userInt) {
 //		user1.getById(userInt);
 		System.out.println("1 View Balances");
 		System.out.println("2 View Account Information");
@@ -65,6 +69,8 @@ public class ControlFlowUser {
 						System.out.println("Success: $" + deposit + " deposited in Checking");
 						System.out.println("");
 						System.out.println("Returning to home page...");
+						System.out.println("");
+						log.deposit();
 						userHomePage(userInt);
 						break;
 //					deposit savings			
@@ -79,6 +85,8 @@ public class ControlFlowUser {
 						System.out.println("Success: $" + deposit1 + " deposited in Savings");
 						System.out.println("");
 						System.out.println("Returning to home page...");
+						System.out.println("");
+						log.deposit();
 						userHomePage(userInt);
 						break;
 //					logout	
@@ -86,9 +94,12 @@ public class ControlFlowUser {
 						sc.close();
 						System.out.println("------------------");
 						System.out.println("Thank you for banking with BB Bank");
+						log.end();
 						break;
 					default:
-						System.out.println("Error");
+						System.out.println("Invalid command. Redirecting to homepage...");
+						System.out.println("");
+						userHomePage(userInt);
 						break;
 					}
 //					nested switch level 4 end (deposit options)
@@ -113,6 +124,8 @@ public class ControlFlowUser {
 						System.out.println("Success: $" + withdraw + " withdrawn from Checking");
 						System.out.println("");
 						System.out.println("Returning to home page...");
+						System.out.println("");
+						log.withdraw();
 						userHomePage(userInt);
 						break;
 	//					withdraw savings			
@@ -127,6 +140,8 @@ public class ControlFlowUser {
 						System.out.println("Success: $" + withdraw1 + " withdrawn from Savings");
 						System.out.println("");
 						System.out.println("Returning to home page...");
+						System.out.println("");
+						log.withdraw();
 						userHomePage(userInt);
 						break;
 	//					logout
@@ -134,9 +149,12 @@ public class ControlFlowUser {
 						sc.close();
 						System.out.println("------------------");
 						System.out.println("Thank you for banking with BB Bank");
+						log.end();
 						break;
 					default:
-						System.out.println("Error");
+						System.out.println("Invalid command. Redirecting to homepage...");
+						System.out.println("");
+						userHomePage(userInt);
 						break;
 				}
 //					nested switch level 4 end (withdraw options)								
@@ -146,9 +164,12 @@ public class ControlFlowUser {
 				sc.close();
 				System.out.println("------------------");
 				System.out.println("Thank you for banking with BB Bank");
+				log.end();
 				break;
 			default:
-				System.out.println("Error");
+				System.out.println("Invalid command. Redirecting to homepage...");
+				System.out.println("");
+				userHomePage(userInt);
 				break;
 			}
 //		nested switch level 3 end (view balances)
@@ -161,7 +182,8 @@ public class ControlFlowUser {
 			System.out.println("------------------");
 			System.out.println("");
 			System.out.println("1 Edit Account Info");
-			System.out.println("2 Logout");
+			System.out.println("2 Return to Homepage");
+			System.out.println("3 Logout");
 			selectionInt = sc.nextInt();
 //				nested switch level 4 start (edit acct info)
 			switch (selectionInt) {
@@ -181,16 +203,28 @@ public class ControlFlowUser {
 					System.out.println("Account information updated.");
 					System.out.println("");
 					System.out.println("Returning to home page...");
+					System.out.println("");
+					log.acctUpdated();
 					userHomePage(userInt);
 					break;
-	//				logout
+//				return to homepage
 				case 2:
+					System.out.println("");
+					System.out.println("Returning to home page...");
+					System.out.println("");
+					userHomePage(userInt);
+					break;
+//				logout
+				case 3:
 					sc.close();
 					System.out.println("------------------");
 					System.out.println("Thank you for banking with BB Bank");
+					log.end();
 					break;
 				default:
-					System.out.println("Error");
+					System.out.println("Invalid command. Redirecting to homepage...");
+					System.out.println("");
+					userHomePage(userInt);
 					break;
 	//				nested switch level 4 end (edit acct info)
 			}
@@ -200,9 +234,12 @@ public class ControlFlowUser {
 			sc.close();
 			System.out.println("------------------");
 			System.out.println("Thank you for banking with BB Bank");
+			log.end();
 			break;
 		default:
-			System.out.println("Error");
+			System.out.println("Invalid command. Redirecting to homepage...");
+			System.out.println("");
+			userHomePage(userInt);
 			break;
 		}
 //		nested switch level 3 start (view acct info)						

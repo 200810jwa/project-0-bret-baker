@@ -21,7 +21,7 @@ public class AdminDAO implements IAdminDAO {
 	PreparedStatement stmt = null;
 	
 	@Override
-	public boolean getByUsername(String username) {
+	public List<Admin> getByUsername(String username) {
 
 		List<Admin> admin = new ArrayList<>();
 
@@ -50,13 +50,13 @@ public class AdminDAO implements IAdminDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("WE FAILED TO RETRIEVE ADMIN");
-			return false;
+			return null;
 		} finally {
 			closeResources();
 		}
 		
 //		System.out.println(admin.get(0));
-		return true;
+		return admin;
 	}
 	
 	@Override

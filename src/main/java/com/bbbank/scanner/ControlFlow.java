@@ -2,8 +2,12 @@ package com.bbbank.scanner;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.bbbank.dao.UserDAO;
+import com.bbbank.hash.PasswordAuthentication;
+import com.bbbank.models.Admin;
 import com.bbbank.models.User;
 import com.bbbank.dao.AdminDAO;
 import com.bbbank.dao.ApplicationDAO;
@@ -11,7 +15,18 @@ import com.bbbank.dao.IAdminDAO;
 import com.bbbank.dao.IApplicationDAO;
 import com.bbbank.dao.IUserDAO;
 
+import com.bbbank.logger.L4J;
+
 public class ControlFlow {
+	
+	public final PasswordAuthentication auth = new PasswordAuthentication();
+	
+	public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
+	public static boolean validateEmail(String emailStr) {
+	        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
+	        return matcher.find();
+	}
 	
 	private IUserDAO userDAO;
 	private IAdminDAO adminDAO;
@@ -39,76 +54,84 @@ public class ControlFlow {
 		this.applicationDAO = new ApplicationDAO();
 	}
 	
-	public static ControlFlowUser cfu = new ControlFlowUser();
-	public static ControlFlowAdmin cfa = new ControlFlowAdmin();
+	public ControlFlowUser cfu = new ControlFlowUser();
+	public ControlFlowAdmin cfa = new ControlFlowAdmin();
 	
 	public static Scanner sc = new Scanner(System.in);
+	
+	public L4J log = new L4J();
 	
 	int selectionInt;
 	static int userInt;
 	
-	public int getUserByUsername() {
+	public List<User> getUserByUsername() {
 		
+		System.out.println("");
 		System.out.println("Enter Username");
 		String username = sc.next();
 		UserDAO user = new UserDAO();
 		List<User> u = user.getByUsername(username);
 		userInt = u.get(0).getId();
 		if (userInt != 0) {
-			return userInt;
+			return u;
 		} else {
-			System.out.println("Incorrect credentials");
+			System.out.println("Incorrect credentials. Please try again.");
 			return getUserByUsername();
 		}
 		
 	}
 	
-	public boolean getUserByPassword() {
+	public void authUser(String p1) {
 		
+		System.out.println("");
 		System.out.println("Enter Password");
 		String password = sc.next();
-		UserDAO user = new UserDAO();
-		boolean u = user.getByPassword(password);
-		if (u) {
-			return true;
+
+		if (auth.authenticate(password.toCharArray(), p1)) {
+			return;
 		} else {
-			System.out.println("Incorrect credentials");
-			return getUserByPassword();
+			System.out.println("Incorrect credentials. Redirecting to homepage...");
+			System.out.println("");
+			start();
 		}
 		
 	}
 	
-	public boolean getAdminByUsername() {
+	public List<Admin> getAdminByUsername() {
 		
+		System.out.println("");
 		System.out.println("Enter Username");
 		String username = sc.next();
 		AdminDAO admin = new AdminDAO();
-		boolean a = admin.getByUsername(username);
-		if (a) {
-			return true;
+		List<Admin> a = admin.getByUsername(username);
+		if (a.get(0).getUsername().equals(username)) {
+			return a;
 		} else {
-			System.out.println("Incorrect credentials");
+			System.out.println("Incorrect credentials. Please try again.");
 			return getAdminByUsername();
 		}
 		
 	}
 	
-	public boolean getAdminByPassword() {
+	public void authAdmin(String p) {
 		
+		System.out.println("");
 		System.out.println("Enter Password");
 		String password = sc.next();
-		AdminDAO admin = new AdminDAO();
-		boolean a = admin.getByPassword(password);
-		if (a) {
-			return true;
+		
+		if (auth.authenticate(password.toCharArray(), p)) {
+			return;
 		} else {
-			System.out.println("Incorrect credentials");
-			return getAdminByPassword();
+			System.out.println("Incorrect credentials. Redirecting to homepage...");
+			System.out.println("");
+			start();
 		}
 		
 	}
 	
 	public void start() {
+		
+		log.start();
 		
 		System.out.println("Welcome to BB Bank");
 		System.out.println("------------------");
@@ -127,12 +150,15 @@ public class ControlFlow {
 				System.out.println("2 User");
 				int role = sc.nextInt();
 				if(role == 1) {
-					getAdminByUsername();
-					getAdminByPassword();
+					List<Admin> a = getAdminByUsername();
+					String p = a.get(0).getPassword();
+					authAdmin(p);
 				} else if(role == 2) {
-					getUserByUsername();
-					getUserByPassword();
+					List<User> u = getUserByUsername();
+					String p1 = u.get(0).getPassword();
+					authUser(p1);
 				}
+				log.login();
 				System.out.println("");
 				System.out.println("------------------");
 				System.out.println("----- Welcome ----");
@@ -165,7 +191,7 @@ public class ControlFlow {
 				selectionInt = sc.nextInt();
 //			nested switch level 1 start (role admin)
 				switch(selectionInt) {
-//				user sign up                           
+//				user apply                           
 				case 1 :
 					System.out.println("");
 					System.out.println("Enter information below to apply for an account");
@@ -177,15 +203,43 @@ public class ControlFlow {
 					String lastname = sc.next();
 					System.out.println("Enter email:");
 					String email = sc.next();
+					
+//					validate email
+					if(!validateEmail(email)) {
+						System.out.println("Invalid email. Rebooting program...");
+						System.out.println("");
+						start();
+					}
+					
 					System.out.println("Enter password:");
 					String password1 = sc.next();
+					
+//					hash password
+					String p1 = auth.hash(password1.toCharArray());
+					
 					System.out.println("Please provide credit score:");
 					int creditscore = sc.nextInt();
+					
+//					validate creditscore
+					if(creditscore < 300 || creditscore > 850) {
+						System.out.println("Invalid credit score. Rebooting program...");
+						System.out.println("");
+						start();
+					}
+					
 					System.out.println("Please provide annual income:");
 					int income = sc.nextInt();
+					
+//					validate income
+					if(income < 0) {
+						System.out.println("Invalid income. Rebooting program...");
+						System.out.println("");
+						start();
+					}					
+					
 					int role2 = 2;
 					ApplicationDAO app = new ApplicationDAO();
-					app.insert(firstname, lastname, email, password1, role2, creditscore, income);
+					app.insert(firstname, lastname, email, p1, role2, creditscore, income);
 					System.out.println("------------------");
 					System.out.println("");
 					System.out.println("Bank admin will contact you to advise whether you are approved or denied");
@@ -194,6 +248,8 @@ public class ControlFlow {
 					System.out.println("------------------");
 					System.out.println("");
 					System.out.println("Thank you for banking with BB Bank");
+					log.appSubmitted();
+					log.end();
 					break;
 //				admin sign up
 				case 2 : 
@@ -211,10 +267,22 @@ public class ControlFlow {
 							String lastname1 = sc.next();
 							System.out.println("Enter email:");
 							String email1 = sc.next();
+							
+//							validate email
+							if(!validateEmail(email1)) {
+								System.out.println("Invalid email. Rebooting program...");
+								System.out.println("");
+								start();
+							}
+							
 							System.out.println("Enter password:");
 							String password3 = sc.next();
+							
+//							hash password
+							String p = auth.hash(password3.toCharArray());
+							
 							int role1 = 1;
-							admin.insert(firstname1, lastname1, email1, email1, password3, role1);
+							admin.insert(firstname1, lastname1, email1, email1, p, role1);
 							System.out.println("------------------");
 							System.out.println("");
 							System.out.println("Success. New admin account created.");
@@ -224,24 +292,33 @@ public class ControlFlow {
 							System.out.println("Please login in to new account");
 							System.out.println("");
 							System.out.println("------------------");
+							log.signup();
 							start();
 							break;
 						default :
 //							need method here that re-runs admin password request
-							System.out.println("Incorrect credentials. Try again.");
+							System.out.println("Authentication denied. Rebooting program...");
 							start();
 							break;
 					}
 //					nested switch level 2 end (admin auth)
 					break;
 				default :
-					System.out.println("error");
+					System.out.println("Invalid command. Rebooting program...");
+					System.out.println("");
+					start();
 					break;
 				}
 //			nested switch level 1 end (role admin)
 				break;
 			default :
-				System.out.println("Error");
+//				System.out.println("Error");
+//				sc.close();
+//				log.end();
+				System.out.println("Invalid command. Rebooting program...");
+				System.out.println("");
+				start();
+				break;
 		}
 //		switch level 0 end (sign up)
 	}

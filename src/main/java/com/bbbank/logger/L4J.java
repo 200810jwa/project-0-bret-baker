@@ -53,5 +53,9 @@ private static Logger log = Logger.getLogger(L4J.class);
 	public void cancel() {
 		log.info("User account canceled");
 	}
+	
+	public void validationError(String errorType) {
+		log.error("Validation error: Invalid " + errorType);
+	}
 
 }

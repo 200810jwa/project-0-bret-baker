@@ -32,8 +32,6 @@ public class ControlFlowUser {
 		switch (selectionInt) {
 //	view balances
 		case 1:
-//			double checking = 150.62;
-//			double savings = 302.76;
 			user = user1.getById(userInt);
 			checking = user.get(0).getChecking_balance();
 			savings = user.get(0).getSavings_balance();
@@ -51,6 +49,7 @@ public class ControlFlowUser {
 			switch (selectionInt) {
 //			deposit options
 			case 1:
+				System.out.println("");
 				System.out.println("1 Deposit Checking");
 				System.out.println("2 Deposit Savings");
 				System.out.println("3 Logout");
@@ -62,7 +61,15 @@ public class ControlFlowUser {
 						System.out.println("");
 						System.out.println("Enter amount to Deposit in Checking");
 						double deposit = sc.nextDouble();
-//						System.out.println(deposit);
+
+//						validate deposit amount
+						if(deposit <= 0) {
+							System.out.println("Invalid deposit amount. Redirecting to homepage...");
+							System.out.println("");
+							log.validationError("deposit");
+							userHomePage(userInt);
+						}
+						
 						String username = user.get(0).getUsername();
 						user1.updateCheckingBalance(username, deposit);
 						System.out.println("");
@@ -78,9 +85,17 @@ public class ControlFlowUser {
 						System.out.println("");
 						System.out.println("Enter amount to Deposit in Savings");
 						double deposit1 = sc.nextDouble();
-//						System.out.println(deposit1);
+
+//						validate deposit amount
+						if(deposit1 <= 0) {
+							System.out.println("Invalid deposit amount. Redirecting to homepage...");
+							System.out.println("");
+							log.validationError("deposit");
+							userHomePage(userInt);
+						}
+							
 						String username1 = user.get(0).getUsername();
-						user1.updateCheckingBalance(username1, deposit1);
+						user1.updateSavingsBalance(username1, deposit1);
 						System.out.println("");
 						System.out.println("Success: $" + deposit1 + " deposited in Savings");
 						System.out.println("");
@@ -99,6 +114,7 @@ public class ControlFlowUser {
 					default:
 						System.out.println("Invalid command. Redirecting to homepage...");
 						System.out.println("");
+						log.validationError("command");
 						userHomePage(userInt);
 						break;
 					}
@@ -106,6 +122,7 @@ public class ControlFlowUser {
 				break;
 //			withdraw options	
 			case 2:
+				System.out.println("");
 				System.out.println("1 Withdraw Checking");
 				System.out.println("2 Withdraw Savings");
 				System.out.println("3 Logout");
@@ -117,6 +134,15 @@ public class ControlFlowUser {
 						System.out.println("");
 						System.out.println("Enter amount to Withdraw from Checking");
 						double withdraw = sc.nextDouble();
+						
+//						validate withdrawal amount
+						if(withdraw > checking) {
+							System.out.println("Invalid withdrawal amount. Redirecting to homepage...");
+							System.out.println("");
+							log.validationError("withdraw");
+							userHomePage(userInt);
+						}
+						
 						withdraw = -withdraw;
 						String username = user.get(0).getUsername();
 						user1.updateCheckingBalance(username, withdraw);
@@ -133,6 +159,15 @@ public class ControlFlowUser {
 						System.out.println("");
 						System.out.println("Enter amount to Withdraw from Savings");
 						double withdraw1 = sc.nextDouble();
+						
+//						validate withdrawal amount
+						if(withdraw1 > savings) {
+							System.out.println("Invalid withdrawal amount. Redirecting to homepage...");
+							System.out.println("");
+							log.validationError("withdraw");
+							userHomePage(userInt);
+						}
+						
 						withdraw1 = -withdraw1;
 						String username1 = user.get(0).getUsername();
 						user1.updateCheckingBalance(username1, withdraw1);
@@ -154,6 +189,7 @@ public class ControlFlowUser {
 					default:
 						System.out.println("Invalid command. Redirecting to homepage...");
 						System.out.println("");
+						log.validationError("command");
 						userHomePage(userInt);
 						break;
 				}
@@ -169,6 +205,7 @@ public class ControlFlowUser {
 			default:
 				System.out.println("Invalid command. Redirecting to homepage...");
 				System.out.println("");
+				log.validationError("command");
 				userHomePage(userInt);
 				break;
 			}
@@ -224,6 +261,7 @@ public class ControlFlowUser {
 				default:
 					System.out.println("Invalid command. Redirecting to homepage...");
 					System.out.println("");
+					log.validationError("command");
 					userHomePage(userInt);
 					break;
 	//				nested switch level 4 end (edit acct info)
@@ -239,6 +277,7 @@ public class ControlFlowUser {
 		default:
 			System.out.println("Invalid command. Redirecting to homepage...");
 			System.out.println("");
+			log.validationError("command");
 			userHomePage(userInt);
 			break;
 		}

@@ -55,6 +55,8 @@ public class ControlFlowAdmin {
 				adminHomePage();
 			} else {
 				System.out.println("");
+				System.out.println("There are " + app1.size() + " applications pending review.");
+				System.out.println("");
 				System.out.println("------------------");
 				System.out.println("");
 				System.out.println("Enter email of user from list above to view application");
@@ -131,6 +133,7 @@ public class ControlFlowAdmin {
 			break;
 //		account transactions
 		case 3 :
+			System.out.println("");
 			System.out.println("1 Deposit");
 			System.out.println("2 Withdrawal");
 			System.out.println("3 Transfer");
@@ -165,6 +168,7 @@ public class ControlFlowAdmin {
 					if(deposit1 <= 0) {
 						System.out.println("Invalid deposit amount. Redirecting to homepage...");
 						System.out.println("");
+						log.validationError("deposit");
 						adminHomePage();
 					}
 					
@@ -185,6 +189,7 @@ public class ControlFlowAdmin {
 					if(deposit2 <= 0) {
 						System.out.println("Invalid deposit amount. Redirecting to homepage...");
 						System.out.println("");
+						log.validationError("deposit");
 						adminHomePage();
 					}					
 					
@@ -200,6 +205,7 @@ public class ControlFlowAdmin {
 				default :
 					System.out.println("Invalid command. Redirecting to homepage...");
 					System.out.println("");
+					log.validationError("command");
 					adminHomePage();
 					break;
 				}
@@ -231,6 +237,7 @@ public class ControlFlowAdmin {
 					if(withdraw1 > checking) {
 						System.out.println("Invalid withdrawal amount. Redirecting to homepage...");
 						System.out.println("");
+						log.validationError("withdrawal");
 						adminHomePage();
 					}
 					
@@ -252,6 +259,7 @@ public class ControlFlowAdmin {
 					if(withdraw2 > savings) {
 						System.out.println("Invalid withdrawal amount. Redirecting to homepage...");
 						System.out.println("");
+						log.validationError("withdrawal");
 						adminHomePage();
 					}					
 					
@@ -268,6 +276,7 @@ public class ControlFlowAdmin {
 				default :
 					System.out.println("Invalid command. Redirecting to homepage...");
 					System.out.println("");
+					log.validationError("command");
 					adminHomePage();
 					break;
 				}
@@ -318,6 +327,7 @@ public class ControlFlowAdmin {
 								if(transfer > checking) {
 									System.out.println("Invalid transfer amount. Redirecting to homepage...");
 									System.out.println("");
+									log.validationError("transfer");
 									adminHomePage();
 								}
 								
@@ -341,6 +351,7 @@ public class ControlFlowAdmin {
 								if(transfer1 > checking) {
 									System.out.println("Invalid transfer amount. Redirecting to homepage...");
 									System.out.println("");
+									log.validationError("transfer");
 									adminHomePage();
 								}
 								
@@ -387,9 +398,10 @@ public class ControlFlowAdmin {
 								double transfer = sc.nextDouble();
 								
 //								validate transfer amount
-								if(transfer > checking) {
+								if(transfer > savings) {
 									System.out.println("Invalid transfer amount. Redirecting to homepage...");
 									System.out.println("");
+									log.validationError("transfer");
 									adminHomePage();
 								}
 								
@@ -410,13 +422,14 @@ public class ControlFlowAdmin {
 								double transfer1 = sc.nextDouble();
 								
 //								validate transfer amount
-								if(transfer1 > checking) {
+								if(transfer1 > savings) {
 									System.out.println("Invalid transfer amount. Redirecting to homepage...");
 									System.out.println("");
+									log.validationError("transfer");
 									adminHomePage();
 								}
 								
-								user.updateCheckingBalance(username6, transfer1);
+								user.updateSavingsBalance(username6, transfer1);
 								transfer1 = -transfer1;
 								user.updateSavingsBalance(username4, transfer1);
 								System.out.println("");
@@ -430,6 +443,7 @@ public class ControlFlowAdmin {
 							default :
 								System.out.println("Invalid command. Redirecting to homepage...");
 								System.out.println("");
+								log.validationError("command");
 								adminHomePage();
 								break;
 						}
@@ -438,6 +452,7 @@ public class ControlFlowAdmin {
 					default :
 						System.out.println("Invalid command. Redirecting to homepage...");
 						System.out.println("");
+						log.validationError("command");
 						adminHomePage();
 						break;
 				}
@@ -472,6 +487,7 @@ public class ControlFlowAdmin {
 				default : 
 					System.out.println("Invalid command. Redirecting to homepage...");
 					System.out.println("");
+					log.validationError("command");
 					adminHomePage();
 					break;
 				}
@@ -486,6 +502,7 @@ public class ControlFlowAdmin {
 			default :
 				System.out.println("Invalid command. Redirecting to homepage...");
 				System.out.println("");
+				log.validationError("command");
 				adminHomePage();
 				break;
 			}
@@ -501,6 +518,7 @@ public class ControlFlowAdmin {
 		default : 
 			System.out.println("Invalid command. Redirecting to homepage...");
 			System.out.println("");
+			log.validationError("command");
 			adminHomePage();
 			break;
 		}

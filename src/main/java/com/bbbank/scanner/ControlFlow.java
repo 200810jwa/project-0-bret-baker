@@ -76,6 +76,7 @@ public class ControlFlow {
 			return u;
 		} else {
 			System.out.println("Incorrect credentials. Please try again.");
+			log.validationError("username");
 			return getUserByUsername();
 		}
 		
@@ -92,6 +93,7 @@ public class ControlFlow {
 		} else {
 			System.out.println("Incorrect credentials. Redirecting to homepage...");
 			System.out.println("");
+			log.validationError("password");
 			start();
 		}
 		
@@ -108,6 +110,7 @@ public class ControlFlow {
 			return a;
 		} else {
 			System.out.println("Incorrect credentials. Please try again.");
+			log.validationError("username");
 			return getAdminByUsername();
 		}
 		
@@ -124,6 +127,7 @@ public class ControlFlow {
 		} else {
 			System.out.println("Incorrect credentials. Redirecting to homepage...");
 			System.out.println("");
+			log.validationError("password");
 			start();
 		}
 		
@@ -175,7 +179,10 @@ public class ControlFlow {
 						cfu.userHomePage(userInt);
 						break;
 					default :
-						System.out.println("Error");
+						System.out.println("Invalid command. Redirecting to homepage...");
+						System.out.println("");
+						log.validationError("command");
+						start();
 						break;
 //			nested switch level 1 end (role user)
 				}
@@ -206,8 +213,9 @@ public class ControlFlow {
 					
 //					validate email
 					if(!validateEmail(email)) {
-						System.out.println("Invalid email. Rebooting program...");
+						System.out.println("Invalid email. Redirecting to homepage...");
 						System.out.println("");
+						log.validationError("email");
 						start();
 					}
 					
@@ -222,8 +230,9 @@ public class ControlFlow {
 					
 //					validate creditscore
 					if(creditscore < 300 || creditscore > 850) {
-						System.out.println("Invalid credit score. Rebooting program...");
+						System.out.println("Invalid credit score. Redirecting to homepage...");
 						System.out.println("");
+						log.validationError("credit score");
 						start();
 					}
 					
@@ -232,8 +241,9 @@ public class ControlFlow {
 					
 //					validate income
 					if(income < 0) {
-						System.out.println("Invalid income. Rebooting program...");
+						System.out.println("Invalid income. Redirecting to homepage...");
 						System.out.println("");
+						log.validationError("income");
 						start();
 					}					
 					
@@ -270,8 +280,9 @@ public class ControlFlow {
 							
 //							validate email
 							if(!validateEmail(email1)) {
-								System.out.println("Invalid email. Rebooting program...");
+								System.out.println("Invalid email. Redirecting to homepage...");
 								System.out.println("");
+								log.validationError("email");
 								start();
 							}
 							
@@ -297,26 +308,26 @@ public class ControlFlow {
 							break;
 						default :
 //							need method here that re-runs admin password request
-							System.out.println("Authentication denied. Rebooting program...");
+							System.out.println("Authentication denied. Redirecting to homepage...");
+							log.validationError("password");
 							start();
 							break;
 					}
 //					nested switch level 2 end (admin auth)
 					break;
 				default :
-					System.out.println("Invalid command. Rebooting program...");
+					System.out.println("Invalid command. Redirecting to homepage...");
 					System.out.println("");
+					log.validationError("command");
 					start();
 					break;
 				}
 //			nested switch level 1 end (role admin)
 				break;
 			default :
-//				System.out.println("Error");
-//				sc.close();
-//				log.end();
-				System.out.println("Invalid command. Rebooting program...");
+				System.out.println("Invalid command. Redirecting to homepage...");
 				System.out.println("");
+				log.validationError("command");
 				start();
 				break;
 		}
